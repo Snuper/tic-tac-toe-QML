@@ -8,7 +8,9 @@ class ALBot
 public:
     ALBot();
 
-    void botSetXO();
+    short botInput();
+
+private:
 };
 
 #endif // ALBOT_H

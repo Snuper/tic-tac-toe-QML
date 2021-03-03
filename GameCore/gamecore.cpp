@@ -2,7 +2,7 @@
 
 GameCore::GameCore()
 {
-
+    srand(time(NULL));
 }
 
 void GameCore::StartGame()
@@ -18,14 +18,13 @@ void GameCore::StartGame()
     _game = true;
     _counter = 8;
 
-    srand(time(NULL));
     if(rand() % 2 == 0) _xORo = true;
     else _xORo = false;
 
     std::cout   << "Set format game: "
                 << "\n1) PvP"
-                << "\n1) PvE"
-                << "\n1) EvE";
+                << "\n2) PvE"
+                << "\n3) EvE";
 
     std::cout << "\nInput: ";
 
@@ -34,17 +33,19 @@ void GameCore::StartGame()
         std::cin >> choice;
         if(choice == '1')
         {
-            GamePvP();
+            Game('1');
             break;
         }
         else if(choice == '2')
         {
-            GamePvE();
+            _bot = new ALBot;
+            Game('2');
             break;
         }
         else if(choice == '3')
         {
-            GameEvE();
+            _bot = new ALBot[2];
+            Game('3');
             break;
         }
 
@@ -64,17 +65,53 @@ void GameCore::PlayerInput()
     {
         std::cout << "\nInput coordinats field(row/column): ";
         std::cin >> row >> column;
-        step = SetXO(row, column);
+
+        step = SetXO((row * 10 + column));
     }
 }
 
-void GameCore::GamePvP()
+void GameCore::Game(char modeGame)
 {
     while(true)
     {
         ShowWhoseStep();
         ShowField();
-        PlayerInput();
+        if(modeGame == '1')
+        {//Люди сами решат, кто ходит
+            PlayerInput();
+        }
+        else if(modeGame == '2')
+        {//Здесь нужно прописать
+            if(_humanStep == true)
+            {
+                PlayerInput();
+            }
+            else
+            {
+                bool step = false;
+
+                while(step == false)
+                {
+                    step = SetXO(_bot->botInput());
+                }
+            }
+        }
+        else if(modeGame == '3')
+        {//А ботам пофик
+            bool step = false;
+
+            while(step == false)
+            {
+                if(_xORo == true)
+                {
+                    step =  SetXO(_bot[0].botInput());
+                }
+                else
+                {
+                    step =  SetXO(_bot[1].botInput());
+                }
+            }
+        }
         ChangeStepXO();
         CheckWinner();
 
@@ -88,18 +125,11 @@ void GameCore::GamePvP()
     }
 }
 
-void GameCore::GamePvE()
-{
-    ;
-}
-
-void GameCore::GameEvE()
-{
-    ;
-}
-
-bool GameCore::SetXO(short row, short column)
+bool GameCore::SetXO(short argSet)
 {//принимает номер строки и столбца, для заполнение ответа в игровое поле
+    short   row = argSet / 10,
+            column = argSet % 10;
+
     try
     {//пробуем сходить
         if(row > -1 && row < 3 && column > -1 && column < 3)
@@ -185,16 +215,22 @@ void GameCore::ShowWhoseStep()
 
 void GameCore::EndGame(char whoWin)
 {
-    std::cout << "\n-----------------------------\n";
+    system("clear");
+
+    std::cout << "-----------------------------\n";
 
     if(whoWin == '.')
     {
-        std::cout << "Draw";
+        std::cout << "Draw\n";
     }
     else
     {
-        std::cout << "Win " << whoWin << "!!!";
+        std::cout << "Win " << whoWin << "!!!\n";
     }
+
+    std::cout << "-----------------------------\n";
+
+    ShowField();
 
     _game = false;
 }

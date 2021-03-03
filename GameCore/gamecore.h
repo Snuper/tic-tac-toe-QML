@@ -4,6 +4,7 @@
 #include <iostream>
 #include <time.h>
 #include <typeinfo>
+#include "albot.h"
 
 class GameCore
 {
@@ -13,16 +14,18 @@ public:
 
 private:
     bool    _xORo, //True - X; False - O
-            _game;
+            _game,
+            _humanStep;
+
     char** _array = nullptr; //1 - ряд (X); 2 - столбец (O)
 
     short _counter; //счетчик
 
-    bool SetXO(short, short); //ход(записывает ход в игровое поле)
+    ALBot *_bot = nullptr;
 
-    void GamePvP();
-    void GamePvE();
-    void GameEvE();
+    bool SetXO(short); //ход(записывает ход в игровое поле)
+
+    void Game(char);
     void ShowWhoseStep();
     void ChangeStepXO(); //Меняет X на O, не придумал ничего лучше(
     void EndGame(char); //Заканчивает игру
