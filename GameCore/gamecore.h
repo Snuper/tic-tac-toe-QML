@@ -5,6 +5,7 @@
 #include <time.h>
 #include <typeinfo>
 #include "albot.h"
+#include "logger.h"
 
 class GameCore
 {
@@ -24,6 +25,8 @@ private:
     ALBot *_bot = nullptr;
 
     bool SetXO(short); //ход(записывает ход в игровое поле)
+
+    Logger *_log;
 
     void Game(char);
     void ShowWhoseStep();
