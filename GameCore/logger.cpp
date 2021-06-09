@@ -4,13 +4,13 @@ Logger::Logger()
 {
     QDate *currentDay = new QDate;
 
-    std::string nameFile =  "log_" +
+    std::string fileName =  "log_" +
             std::to_string(currentDay->currentDate().year()) +
             std::to_string(currentDay->currentDate().month()) +
             std::to_string(currentDay->currentDate().day())
             + ".txt";
 
-    logFile.open(nameFile, std::ios::app);
+    logFile.open(fileName, std::ios::app);
 
     delete currentDay;
 }

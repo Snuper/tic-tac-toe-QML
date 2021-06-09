@@ -7,7 +7,8 @@ ALBot::ALBot()
 
 short ALBot::botInput()
 {
-    short row, column;
+    short row;
+    short column;
 
     row = 0 + rand() % (3 - 0);
     column = 0 + rand() % (3 - 0);

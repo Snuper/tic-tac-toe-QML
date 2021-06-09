@@ -11,16 +11,16 @@ class GameCore
 {
 public:
     GameCore();
-    void StartGame(); //основа игры
+    void StartGame();
 
 private:
     bool    _xORo, //True - X; False - O
             _game,
             _humanStep;
 
-    char** _array = nullptr; //1 - ряд (X); 2 - столбец (O)
+    char** _gameField = nullptr; //1 - ряд (X); 2 - столбец (O)..что это?!
 
-    short _counter; //счетчик
+    short _counter;
 
     ALBot *_bot = nullptr;
 
@@ -30,8 +30,8 @@ private:
 
     void Game(char);
     void ShowWhoseStep();
-    void ChangeStepXO(); //Меняет X на O, не придумал ничего лучше(
-    void EndGame(char); //Заканчивает игру
+    void ChangeRightMove(); //Передает право хода
+    void EndGame(char);
     void PlayerInput();
     void ShowField(); //вывести игровое поле
     void CheckWinner(); //проверка победителя

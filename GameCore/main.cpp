@@ -4,7 +4,7 @@ int main(void)
 {
     char Choise;
 
-    while(true)
+    while (true)
     {
         system("clear");
 
