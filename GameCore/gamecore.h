@@ -28,10 +28,12 @@ private:
 
     Logger *_log;
 
-    void Game(char);
+    void Game(const char);
+    void ChoiceModeGame();
+    void RandFirstRightMove();
     void ShowWhoseStep();
     void ChangeRightMove(); //Передает право хода
-    void EndGame(char);
+    void EndGame(const char);
     void PlayerInput();
     void ShowField(); //вывести игровое поле
     void CheckWinner(); //проверка победителя

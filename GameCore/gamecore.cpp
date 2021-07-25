@@ -18,10 +18,22 @@ GameCore::GameCore()
 
 void GameCore::StartGame()
 {
-    char choice;
-
     _log->writeLog("----------NewGame----------");
 
+    RandFirstRightMove();
+
+    std::cout   << "Set format game: "
+                << "\n1) PvP"
+                << "\n2) PvE"
+                << "\n3) EvE";
+
+    std::cout << "\nInput: ";
+
+    ChoiceModeGame();
+}
+
+void GameCore::RandFirstRightMove()
+{
     if(rand() % 2 == 0)
     {
         _xORo = true;
@@ -32,43 +44,35 @@ void GameCore::StartGame()
         _xORo = false;
         _log->writeLog("Starts - O");
     }
+}
 
-    std::cout   << "Set format game: "
-                << "\n1) PvP"
-                << "\n2) PvE"
-                << "\n3) EvE";
+void GameCore::ChoiceModeGame()
+{
+    char choice;
 
-    std::cout << "\nInput: ";
+    TRY_AGAIN: std::cin >> choice;
 
-    while(true)
-    {//Пока не выберут
-        std::cin >> choice;
-        if(choice == '1')
-        {
+    switch (choice)
+    {
+        case '1':
             _log->writeLog("Set game - PvP");
             Game('1');
             break;
-        }
-        else if(choice == '2')
-        {
+        case '2':
             _bot = new ALBot;
             _log->writeLog("Set game - PvE");
             Game('2');
             break;
-        }
-        else if(choice == '3')
-        {
+        case '3':
             _bot = new ALBot[2];
             _log->writeLog("Set game - EvE");
             Game('3');
             break;
-        }
-
-        else
-        {
+        default:
             std::cout << "\nInvalid input, try again: ";
             _log->writeLog("<|>Invalid input<|>");
-        }
+            goto TRY_AGAIN;
+            break;
     }
 }
 
@@ -88,8 +92,9 @@ void GameCore::PlayerInput()
     }
 }
 
-void GameCore::Game(char modeGame)
+void GameCore::Game(const char modeGame)
 {
+    system("clear");
     _log->writeLog("----------StartGame----------");
     while (true)
     {
@@ -306,7 +311,7 @@ void GameCore::ShowWhoseStep()
     }
 }
 
-void GameCore::EndGame(char whoWin)
+void GameCore::EndGame(const char whoWin)
 {
     system("clear");
 

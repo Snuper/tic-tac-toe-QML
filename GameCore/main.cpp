@@ -2,7 +2,7 @@
 
 int main(void)
 {
-    char Choise;
+    char choise;
 
     while (true)
     {
@@ -13,8 +13,8 @@ int main(void)
         delete obj;
 
         std::cout << "\nYou wonna play again? (y/n)";
-        std::cin >> Choise;
-        if (Choise == 'n')
+        std::cin >> choise;
+        if (choise == 'n')
             break;
     }
 }
