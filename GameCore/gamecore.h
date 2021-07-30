@@ -11,7 +11,7 @@ class GameCore
 {
 public:
     GameCore();
-    void StartGame();
+    void startGame();
 
 private:
     bool    _xORo, //True - X; False - O
@@ -20,23 +20,22 @@ private:
 
     char** _gameField = nullptr; //1 - ряд (X); 2 - столбец (O)..что это?!
 
-    short _counter;
+    short   _counter,
+            _prevMove;
 
     ALBot *_bot = nullptr;
-
-    bool SetXO(short); //ход(записывает ход в игровое поле)
-
     Logger *_log;
 
-    void Game(const char);
-    void ChoiceModeGame();
-    void RandFirstRightMove();
-    void ShowWhoseStep();
-    void ChangeRightMove(); //Передает право хода
-    void EndGame(const char);
-    void PlayerInput();
-    void ShowField(); //вывести игровое поле
-    void CheckWinner(); //проверка победителя
+    bool setXO(short); //ход(записывает ход в игровое поле)
+    void game(const char);
+    void choiceModeGame();
+    void randFirstRightMove();
+    void showWhoseStep();
+    void changeRightMove(); //Передает право хода
+    void endGame(const char);
+    void playerInput();
+    void showField(); //вывести игровое поле
+    void checkWinner(); //проверка победителя
 };
 
 #endif // GAMECORE_H
