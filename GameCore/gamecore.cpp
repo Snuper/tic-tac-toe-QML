@@ -48,12 +48,12 @@ void GameCore::randFirstRightMove()
     if(rand() % 2 == 0)
     {
         _humanStep = true;
-        _log->writeLog("Starts - human");
+        _log->writeLog("Who? - human");
     }
     else
     {
         _humanStep = false;
-        _log->writeLog("Starts - bot");
+        _log->writeLog("Who? - bot");
     }
 }
 
@@ -66,21 +66,21 @@ void GameCore::choiceModeGame()
     switch (choice)
     {
         case '1':
-            _log->writeLog("Set game - PvP");
+            _log->writeLog("Mode game - PvP");
             game('1');
             break;
         case '2':
-            _bot = new ALBot(_gameField, _xORo, _prevMove);
-            _log->writeLog("Set game - PvE");
+            _bot = new ALBot(_gameField, &_xORo, &_prevMove);
+            _log->writeLog("Mode game - PvE");
             game('2');
             break;
         case '3':
             _bot = new ALBot[2];
             for(int i = 0; i < 2; i++)
             {
-                _bot[i] = ALBot(_gameField, _xORo, _prevMove);
+                _bot[i] = ALBot(_gameField, &_xORo, &_prevMove);
             }
-            _log->writeLog("Set game - EvE");
+            _log->writeLog("Mode game - EvE");
             game('3');
             break;
         default:

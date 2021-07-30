@@ -1,17 +1,19 @@
 #include "albot.h"
 
-ALBot::ALBot()  {}
+ALBot::ALBot(){}
 
-ALBot::ALBot(char** gameField, const bool& xORo, const short& prevMove)
+ALBot::ALBot(char** gameField, const bool* xORo, const short* prevMove)
     : _xORo(xORo), _gameField(gameField), _prevMove(prevMove) {}
 
 short ALBot::botInput()
 {
-    short   row = _prevMove / 10,
-            column = _prevMove % 10;
+    short   row = *_prevMove / 10,
+            column = *_prevMove % 10;
 
     row = 0 + rand() % (3 - 0);
     column = 0 + rand() % (3 - 0);
+
+    showField();
 
     return (row * 10 + column);
 }
@@ -33,8 +35,8 @@ void ALBot::showField()
     std::cout << "---------Field ALBOT---------";
 
     std::cout << "Settings: " << std::endl;
-    std::cout << "  xORo = " << _xORo << std::endl;
-    std::cout << "  prevMove = " << _prevMove << std::endl;
+    std::cout << "  xORo = " << *_xORo << std::endl;
+    std::cout << "  prevMove = " << *_prevMove << std::endl;
     std::cout << "  gameField (&) = " << _gameField << std::endl;
 
     for (short row = 0; row < 3; row++)

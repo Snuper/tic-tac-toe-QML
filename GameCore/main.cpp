@@ -9,7 +9,7 @@ int main(void)
         system("clear");
 
         GameCore *obj = new GameCore;
-        obj->StartGame();
+        obj->startGame();
         delete obj;
 
         std::cout << "\nYou wonna play again? (y/n)";

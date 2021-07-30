@@ -6,15 +6,15 @@
 class ALBot
 {//Automatically Learning Bot
 public:
-    ALBot(char**, const bool&, const short&);
+    ALBot(char**, const bool*, const short*);
     ALBot();
 
     short botInput();
 
 private:
-    bool    _xORo; //True - X; False - O
-    char** _gameField = nullptr; //1 - ряд (X); 2 - столбец (O)..что это?!
-    short   _prevMove;
+    const bool    *_xORo = nullptr; //True - X; False - O
+    char    **_gameField = nullptr; //1 - ряд (X); 2 - столбец (O)..что это?!
+    const short   *_prevMove = nullptr;
 
     void analyzingGameField();
     void fiendEmptyCells();
