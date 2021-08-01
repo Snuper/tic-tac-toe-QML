@@ -34,27 +34,15 @@ void GameCore::startGame()
 
 void GameCore::randFirstRightMove()
 {
-    if(rand() % 2 == 0)
-    {
-        _xORo = true;
-        _log->writeLog("Starts - X");
-    }
-    else
-    {
-        _xORo = false;
-        _log->writeLog("Starts - O");
-    }
+    std::string whoRightMove;
 
-    if(rand() % 2 == 0)
-    {
-        _humanStep = true;
-        _log->writeLog("Who? - human");
-    }
-    else
-    {
-        _humanStep = false;
-        _log->writeLog("Who? - bot");
-    }
+    _xORo = (rand() % 2 == 0) ? true : false;
+    _humanStep = (rand() % 2 == 0) ? true : false;
+
+    whoRightMove = (_xORo) ? "Starts - X" : "Starts - O";
+    whoRightMove += (_humanStep) ? " | Human" : " | Bot";
+
+    _log->writeLog(whoRightMove);
 }
 
 void GameCore::choiceModeGame()
@@ -94,14 +82,21 @@ void GameCore::choiceModeGame()
 void GameCore::playerInput()
 {
     bool step = false;
-    short row, column;
+    short   row = -1,
+            column = -1;
 
     _log->writeLog("Player try input...");
 
-    while(step == false)
+    while (step == false)
     {
-        std::cout << "\nInput coordinats field(row/column): ";
-        std::cin >> row >> column;
+        std::cout << "\nInput coordinats field(row/column| 0..2): ";
+        while (!(std::cin >> row >> column))
+        {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "\nInvalid input, try again: ";
+            _log->writeLog("<|>Invalid input<|>");
+        }
 
         step = setXO((row * 10 + column));
     }
@@ -316,22 +311,17 @@ void GameCore::showField()
 
 void GameCore::showWhoseStep()
 {
-    if (_xORo == true)
-    {
-        _log->writeLog("Now step X");
-        std::cout << "\nNow step X\n";
-    }
-    else
-    {
-        _log->writeLog("Now step O");
-        std::cout << "\nNow step O\n";
-    }
+    std::string whoseStep = "Now step ";
+
+    whoseStep += (_xORo) ? "X" : "O";
+
+    _log->writeLog(whoseStep);
+    std::cout << whoseStep;
 }
 
 void GameCore::endGame(const char whoWin)
 {
     system("clear");
-
     std::cout << "-----------------------------\n";
 
     if (whoWin == '.')
@@ -344,12 +334,9 @@ void GameCore::endGame(const char whoWin)
     }
 
     std::cout << "-----------------------------\n";
-
     showField();
 
     _game = false;
-
     _log->writeLog("---------EndGame - Win - " + std::string(1, whoWin) + "------------");
-
     _log->closeLogFile();
 }

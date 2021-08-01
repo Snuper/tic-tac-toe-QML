@@ -7,34 +7,38 @@ ALBot::ALBot(char** gameField, const bool* xORo, const short* prevMove)
 
 short ALBot::botInput()
 {
-    short   row = *_prevMove / 10,
-            column = *_prevMove % 10;
+    short   _rowPrevMove = *_prevMove / 10,
+            _columnPrevMove = *_prevMove % 10;
 
-    row = 0 + rand() % (3 - 0);
-    column = 0 + rand() % (3 - 0);
-
-    showField();
-
-    return (row * 10 + column);
+//    if(analyzingGameField()) ?  : randomInput();
+//    showBotInfo();
+    randomInput();
+    return (_row * 10 + _column);
 }
 
-void ALBot::analyzingGameField()
+void ALBot::randomInput()
+{   
+    _row = 0 + rand() % (3 - 0);
+    _column = 0 + rand() % (3 - 0);
+}
+
+bool ALBot::analyzingGameField()
+{
+    findEmptyCells();
+    return false;
+}
+
+void ALBot::findEmptyCells()
 {
     ;
 }
 
-void ALBot::fiendEmptyCells()
-{
-    ;
-}
-
-void ALBot::showField()
-{//Выводим игровое поле
-
+void ALBot::showBotInfo()
+{//Выводит всю инфу, что видит бот
     std::cout << std::endl;
     std::cout << "---------Field ALBOT---------";
 
-    std::cout << "Settings: " << std::endl;
+    std::cout << "\nSettings: " << std::endl;
     std::cout << "  xORo = " << *_xORo << std::endl;
     std::cout << "  prevMove = " << *_prevMove << std::endl;
     std::cout << "  gameField (&) = " << _gameField << std::endl;

@@ -21,7 +21,7 @@ private:
     char** _gameField = nullptr; //1 - ряд (X); 2 - столбец (O)..что это?!
 
     short   _counter,
-            _prevMove;
+            _prevMove = -1;
 
     ALBot *_bot = nullptr;
     Logger *_log;

@@ -13,12 +13,18 @@ public:
 
 private:
     const bool    *_xORo = nullptr; //True - X; False - O
-    char    **_gameField = nullptr; //1 - ряд (X); 2 - столбец (O)..что это?!
     const short   *_prevMove = nullptr;
+    char    **_gameField = nullptr; //1 - ряд (X); 2 - столбец (O)..что это?!
+    short   **emptyCels = nullptr,
+            _row,
+            _column,
+            _rowPrevMove,
+            _columnPrevMove;
 
-    void analyzingGameField();
-    void fiendEmptyCells();
-    void showField();
+    bool analyzingGameField();
+    void findEmptyCells();
+    void showBotInfo();
+    void randomInput();
 };
 
 #endif // ALBOT_H
