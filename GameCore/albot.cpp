@@ -7,12 +7,14 @@ ALBot::ALBot(char** gameField, const bool* xORo, const short* prevMove)
 
 short ALBot::botInput()
 {
-    short   _rowPrevMove = *_prevMove / 10,
-            _columnPrevMove = *_prevMove % 10;
+    _rowPrevMove = *_prevMove / 10;
+    _columnPrevMove = *_prevMove % 10;
 
-//    if(analyzingGameField()) ?  : randomInput();
-//    showBotInfo();
-    randomInput();
+    if (!analyzingGameField())
+    {
+        randomInput();
+    }
+
     return (_row * 10 + _column);
 }
 
@@ -30,7 +32,17 @@ bool ALBot::analyzingGameField()
 
 void ALBot::findEmptyCells()
 {
-    ;
+    for (short row = 0; row < 3; row++)
+    {
+        for (short column = 0; column < 3; column++)
+        {
+            if(_gameField[row][column] == '.')
+            {
+                _emptyCels.push_back(row * 10 + column);
+            }
+        }
+    }
+    _emptyCels.clear();
 }
 
 void ALBot::showBotInfo()
