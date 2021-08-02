@@ -27,7 +27,28 @@ void ALBot::randomInput()
 bool ALBot::analyzingGameField()
 {
     findEmptyCells();
+    if(twoInLine()) return true;
     return false;
+}
+
+bool ALBot::twoInLine()
+{
+    /*
+    Если вы или ваш противник поставили две отметки на одной линии, ставьте
+    отметку в оставшейся на этой линии клетке
+    */
+    short   row,
+            column;
+
+    for (short i = 0; i < (short)_emptyCels.size(); i++)
+    {
+        row = _emptyCels[i] / 10;
+        column = _emptyCels[i] % 10;
+        if (_emptyCels[i] == 0 || _emptyCels[i] == 2 || _emptyCels[i] == 20 || _emptyCels[i] == 22)
+        {
+            ;
+        }
+    }
 }
 
 void ALBot::findEmptyCells()
@@ -36,7 +57,7 @@ void ALBot::findEmptyCells()
     {
         for (short column = 0; column < 3; column++)
         {
-            if(_gameField[row][column] == '.')
+            if (_gameField[row][column] == '.')
             {
                 _emptyCels.push_back(row * 10 + column);
             }

@@ -23,6 +23,7 @@ private:
     std::vector<short> _emptyCels;
 
     bool analyzingGameField();
+    bool twoInLine();
     void findEmptyCells();
     void showBotInfo();
     void randomInput();
