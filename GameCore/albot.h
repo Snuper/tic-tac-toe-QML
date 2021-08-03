@@ -7,7 +7,7 @@
 class ALBot
 {//Automatically Learning Bot
 public:
-    ALBot(char**, const bool*, const short*);
+    ALBot(const bool* xORo, const short* prevMove, char** gameField);
     ALBot();
 
     short botInput();
@@ -23,7 +23,10 @@ private:
     std::vector<short> _emptyCels;
 
     bool analyzingGameField();
-    bool twoInLine();
+    bool lineChecking();
+    bool sameSimbols(short*, short*);
+    short toShort(const short* row, const short* column);
+    void toGamefieldCoordinates(const short* arg, short* row, short* column);
     void findEmptyCells();
     void showBotInfo();
     void randomInput();

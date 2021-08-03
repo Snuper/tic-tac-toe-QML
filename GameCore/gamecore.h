@@ -27,6 +27,8 @@ private:
     Logger *_log;
 
     bool setXO(short); //ход(записывает ход в игровое поле)
+    short toShort(const short* row, const short* column);
+    void toGamefieldCoordinates(const short* arg, short* row, short* column);
     void game(const char);
     void choiceModeGame();
     void randFirstRightMove();

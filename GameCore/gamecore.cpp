@@ -58,7 +58,7 @@ void GameCore::choiceModeGame()
             game('1');
             break;
         case '2':
-            _bot = new ALBot(_gameField, &_xORo, &_prevMove);
+            _bot = new ALBot(&_xORo, &_prevMove, _gameField);
             _log->writeLog("Mode game - PvE");
             game('2');
             break;
@@ -66,7 +66,7 @@ void GameCore::choiceModeGame()
             _bot = new ALBot[2];
             for(int i = 0; i < 2; i++)
             {
-                _bot[i] = ALBot(_gameField, &_xORo, &_prevMove);
+                _bot[i] = ALBot(&_xORo, &_prevMove, _gameField);
             }
             _log->writeLog("Mode game - EvE");
             game('3');
@@ -98,7 +98,8 @@ void GameCore::playerInput()
             _log->writeLog("<|>Invalid input<|>");
         }
 
-        step = setXO((row * 10 + column));
+        short arg = toShort(&row, &column);
+        step = setXO(arg);
     }
 }
 
@@ -163,8 +164,10 @@ void GameCore::game(const char modeGame)
 
 bool GameCore::setXO(short argSet)
 {//принимает номер строки, для заполнение ответа в игровое поле
-    short   row = argSet / 10,
-            column = argSet % 10;
+    short   row,
+            column;
+
+    toGamefieldCoordinates(&argSet, &row, &column);
 
     try
     {//пробуем сходить
@@ -317,6 +320,17 @@ void GameCore::showWhoseStep()
 
     _log->writeLog(whoseStep);
     std::cout << whoseStep;
+}
+
+short GameCore::toShort(const short *row, const short *column)
+{
+    return *row * 10 + *column;
+}
+
+void GameCore::toGamefieldCoordinates(const short *arg, short *row, short *column)
+{
+    *row = *arg / 10;
+    *column = *arg % 10;
 }
 
 void GameCore::endGame(const char whoWin)
