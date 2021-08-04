@@ -24,8 +24,9 @@ private:
 
     bool analyzingGameField();
     bool lineChecking();
-    bool sameSimbols(short*, short*);
+    bool sameSimbols(std::vector<short> *argCell);
     short toShort(const short* row, const short* column);
+    short toShort(const short row, const short column);
     void toGamefieldCoordinates(const short* arg, short* row, short* column);
     void findEmptyCells();
     void showBotInfo();
