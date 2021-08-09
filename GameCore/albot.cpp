@@ -24,7 +24,8 @@ void ALBot::randomInput()
 bool ALBot::analyzingGameField()
 {
     findEmptyCells();
-    if(lineChecking()) return true;
+    if(lineSearching(1)) return true;
+    if(lineSearching(2)) return true;
     return false;
 }
 
@@ -44,11 +45,12 @@ void ALBot::toGamefieldCoordinates(const short *arg, short *row, short *column)
     *column = *arg % 10;
 }
 
-bool ALBot::lineChecking()
+bool ALBot::lineSearching(short requiredNumberEmpty)
 {
     /*
-    Если вы или ваш противник поставили две отметки на одной линии, ставьте
-    отметку в оставшейся на этой линии клетке
+    swtich(requiredNumberEmpty)
+    case 1 : Ход, который контрит победную линию противника или создает победную линию себе
+    case 2 : Ход, который создаст две линии по две отметки
     */
     short   emptyRow,
             emptyColumn,
@@ -74,15 +76,15 @@ bool ALBot::lineChecking()
             }
         }
 
-        if (counterEmpty == 1 && sameSimbols(&argCell))
+        short kol;
+        for (short i = 0; i < (short)argCell.size(); i++)
         {
-            _row = emptyRow;
-            _column = emptyColumn;
-            return true;
+            kol = argCell[i];
         }
-        else
+
+        if (lineChecking(&counterEmpty, &requiredNumberEmpty, &emptyRow, &emptyColumn, &argCell))
         {
-            argCell.clear();
+            return true;
         }
 
         for (row = 0, counterEmpty = 0; row < 3; row++)
@@ -94,15 +96,9 @@ bool ALBot::lineChecking()
             }
         }
 
-        if (counterEmpty == 1 && sameSimbols(&argCell))
+        if (lineChecking(&counterEmpty, &requiredNumberEmpty, &emptyRow, &emptyColumn, &argCell))
         {
-            _row = emptyRow;
-            _column = emptyColumn;
             return true;
-        }
-        else
-        {
-            argCell.clear();
         }
 
         if ((mainDiagona = (_emptyCels[i] == 0 || _emptyCels[i] == 22) ? true : false) ^ (_emptyCels[i] == 2 || _emptyCels[i] == 20))
@@ -130,17 +126,55 @@ bool ALBot::lineChecking()
                 }
             }
 
-            if (counterEmpty == 1 && sameSimbols(&argCell))
+            if (lineChecking(&counterEmpty, &requiredNumberEmpty, &emptyRow, &emptyColumn, &argCell))
             {
-                _row = emptyRow;
-                _column = emptyColumn;
                 return true;
             }
-            else
+        }
+    }
+
+    return false;
+}
+
+bool ALBot::lineChecking(const short *counterEmpty, const short *requiredNumberEmpty,
+                         const short *emptyRow, const short *emptyColumn,
+                         std::vector<short> argCell)
+{
+    short kol;
+    for (short i = 0; i < (short)argCell.size(); i++)
+    {
+        kol = argCell[i];
+    }
+
+    if (*counterEmpty == *requiredNumberEmpty)
+    {
+        if (*requiredNumberEmpty == 1)
+        {
+            if (sameSimbols(&argCell))
             {
-                argCell.clear();
+                _row = *emptyRow;
+                _column = *emptyColumn;
+                return true;
             }
         }
+        else
+        {
+            short   tempRow,
+                    tempColumn;
+
+            toGamefieldCoordinates(&argCell[0], &tempRow, &tempColumn);
+
+            if ((_gameField[tempRow][tempColumn] == 'X' && (_xORo)) or (_gameField[tempRow][tempColumn] == 'O' && (!_xORo)))
+            {
+                _row = *emptyRow;
+                _column = *emptyColumn;
+                return true;
+            }
+        }
+    }
+    else
+    {
+        argCell.clear();
     }
 
     return false;
@@ -151,8 +185,12 @@ bool ALBot::sameSimbols(std::vector <short> *argCell)
     short   row[2],
             column[2];
 
-    toGamefieldCoordinates(argCell[0].data(), &row[0], &column[0]);
-    toGamefieldCoordinates(argCell[1].data(), &row[1], &column[1]);
+    for (short i = 0; i < (short)argCell->size(); i++)
+    {
+        short argTemp = *argCell[i].data();
+        toGamefieldCoordinates(&argTemp, &row[i], &column[i]);
+    }
+
     argCell->clear();
 
     return (_gameField[row[0]][column[0]] == _gameField[row[1]][column[1]]) ? true : false;
