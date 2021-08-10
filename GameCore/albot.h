@@ -27,7 +27,7 @@ private:
     bool sameSimbols(std::vector<short> *argCell);
     bool lineChecking(const short *counterEmpty, const short *requiredNumberEmpty,
                       const short *emptyRow, const short *emptyColumn,
-                      std::vector<short> argCell);
+                      std::vector<short> *argCell);
     short toShort(const short* row, const short* column);
     short toShort(const short row, const short column);
     void toGamefieldCoordinates(const short* arg, short* row, short* column);

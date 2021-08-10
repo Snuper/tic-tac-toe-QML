@@ -76,12 +76,6 @@ bool ALBot::lineSearching(short requiredNumberEmpty)
             }
         }
 
-        short kol;
-        for (short i = 0; i < (short)argCell.size(); i++)
-        {
-            kol = argCell[i];
-        }
-
         if (lineChecking(&counterEmpty, &requiredNumberEmpty, &emptyRow, &emptyColumn, &argCell))
         {
             return true;
@@ -92,7 +86,7 @@ bool ALBot::lineSearching(short requiredNumberEmpty)
             counterEmpty = (_gameField[row][emptyColumn] == '.') ? counterEmpty + 1 : counterEmpty;
             if (row != emptyRow)
             {
-                argCell.push_back(toShort(&emptyRow, &column));
+                argCell.push_back(toShort(&row, &emptyColumn));
             }
         }
 
@@ -122,7 +116,7 @@ bool ALBot::lineSearching(short requiredNumberEmpty)
                 counterEmpty = (_gameField[row][column] == '.') ? counterEmpty + 1 : counterEmpty;
                 if (column != emptyColumn)
                 {
-                    argCell.push_back(toShort(&emptyRow, &column));
+                    argCell.push_back(toShort(&row, &column));
                 }
             }
 
@@ -138,19 +132,13 @@ bool ALBot::lineSearching(short requiredNumberEmpty)
 
 bool ALBot::lineChecking(const short *counterEmpty, const short *requiredNumberEmpty,
                          const short *emptyRow, const short *emptyColumn,
-                         std::vector<short> argCell)
+                         std::vector<short> *argCell)
 {
-    short kol;
-    for (short i = 0; i < (short)argCell.size(); i++)
-    {
-        kol = argCell[i];
-    }
-
     if (*counterEmpty == *requiredNumberEmpty)
     {
         if (*requiredNumberEmpty == 1)
         {
-            if (sameSimbols(&argCell))
+            if (sameSimbols(argCell))
             {
                 _row = *emptyRow;
                 _column = *emptyColumn;
@@ -162,7 +150,7 @@ bool ALBot::lineChecking(const short *counterEmpty, const short *requiredNumberE
             short   tempRow,
                     tempColumn;
 
-            toGamefieldCoordinates(&argCell[0], &tempRow, &tempColumn);
+            toGamefieldCoordinates(&argCell->at(0), &tempRow, &tempColumn);
 
             if ((_gameField[tempRow][tempColumn] == 'X' && (_xORo)) or (_gameField[tempRow][tempColumn] == 'O' && (!_xORo)))
             {
@@ -174,7 +162,7 @@ bool ALBot::lineChecking(const short *counterEmpty, const short *requiredNumberE
     }
     else
     {
-        argCell.clear();
+        argCell->clear();
     }
 
     return false;
@@ -187,8 +175,7 @@ bool ALBot::sameSimbols(std::vector <short> *argCell)
 
     for (short i = 0; i < (short)argCell->size(); i++)
     {
-        short argTemp = *argCell[i].data();
-        toGamefieldCoordinates(&argTemp, &row[i], &column[i]);
+        toGamefieldCoordinates(&argCell->at(i), &row[i], &column[i]);
     }
 
     argCell->clear();
