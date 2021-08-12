@@ -3,3 +3,4 @@
 *.o
 *.exe
 build-GameCore-Desktop_Qt_6_0_0_MinGW_64_bit-Debug/
+build-GameCore-Desktop_Qt_6_0_0_MinGW_64_bit-Release/
