@@ -3,9 +3,8 @@
 
 #include <iostream>
 #include <time.h>
-#include <typeinfo>
 #include "albot.h"
-#include "logger.h"
+//#include "logger.h"
 
 class GameCore
 {
@@ -24,7 +23,7 @@ private:
             _prevMove = -1;
 
     ALBot *_bot = nullptr;
-    Logger *_log;
+//    Logger *_log;
 
     bool setXO(short); //ход(записывает ход в игровое поле)
     short toShort(const short* row, const short* column);
