@@ -22,18 +22,21 @@ private:
             _columnPrevMove;
     std::vector<short> _emptyCels;
 
-    bool analyzingGameField();
     bool lineSearching(short requiredNumberEmpty);
     bool sameSimbols(std::vector<short> *argCell);
     bool lineChecking(const short *counterEmpty, const short *requiredNumberEmpty,
                       const short *emptyRow, const short *emptyColumn,
                       std::vector<short> *argCell);
+    bool centerCellCheck();
+    bool mirrorMove();
+    bool cornerCellCheck();
     short toShort(const short* row, const short* column);
     short toShort(const short row, const short column);
     void toGamefieldCoordinates(const short* arg, short* row, short* column);
     void findEmptyCells();
     void showBotInfo();
     void randomInput();
+    void analyzingGameField();
 };
 
 #endif // ALBOT_H

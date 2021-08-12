@@ -7,26 +7,27 @@ ALBot::ALBot(const bool* xORo, const short* prevMove, char** gameField)
 
 short ALBot::botInput()
 {
-    if (!analyzingGameField())
-    {
-        randomInput();
-    }
-
+    analyzingGameField();
     return toShort(&_row, &_column);
 }
 
 void ALBot::randomInput()
-{   
-    _row = 0 + rand() % (3 - 0);
-    _column = 0 + rand() % (3 - 0);
+{
+    short randNumber;
+    randNumber = 0 + rand() % (_emptyCels.size() - 0);
+
+    toGamefieldCoordinates(&_emptyCels[randNumber], &_row, &_column);
 }
 
-bool ALBot::analyzingGameField()
+void ALBot::analyzingGameField()
 {
     findEmptyCells();
-    if(lineSearching(1)) return true;
-    if(lineSearching(2)) return true;
-    return false;
+    if (lineSearching(1)) return;
+    if (lineSearching(2)) return;
+    if (centerCellCheck()) return;
+    if (mirrorMove()) return;
+    if (cornerCellCheck()) return;
+    randomInput();
 }
 
 short ALBot::toShort(const short *row, const short *column)
@@ -95,23 +96,29 @@ bool ALBot::lineSearching(short requiredNumberEmpty)
             return true;
         }
 
-        if ((mainDiagona = (_emptyCels[i] == 0 || _emptyCels[i] == 22) ? true : false) ^ (_emptyCels[i] == 2 || _emptyCels[i] == 20))
+        if (((mainDiagona = (_emptyCels[i] == 0 || _emptyCels[i] == 22) ? true : false) ^ (_emptyCels[i] == 2 || _emptyCels[i] == 20)) || _emptyCels[i] == 11)
         {//Проверяем диоганали
-            short incColDig = 1;
-            row = 0;
+            short   incColDig,
+                    row;
+
+            bool centerCell = true; //флаг, который смениться при первом прохождении поиска диагонали, для центральной ячейки
 
             if (!mainDiagona)
             {
-               column = 2;
-               incColDig *= -1;
+                row = 0;
+                column = 2;
+                incColDig = -1;
             }
 
             else
             {
+                CenterCellDoubleCheck: //Проверяем главную диагональ для центральной ячейки
+                row = 0;
                 column = 0;
+                incColDig = 1;
             }
 
-            for (emptyColumn = 0; row < 3; row++, column += incColDig)
+            for (counterEmpty = 0; row < 3; row++, column += incColDig)
             {
                 counterEmpty = (_gameField[row][column] == '.') ? counterEmpty + 1 : counterEmpty;
                 if (column != emptyColumn)
@@ -123,6 +130,11 @@ bool ALBot::lineSearching(short requiredNumberEmpty)
             if (lineChecking(&counterEmpty, &requiredNumberEmpty, &emptyRow, &emptyColumn, &argCell))
             {
                 return true;
+            }
+            else if (_emptyCels[i] == 11 && centerCell == true)
+            {
+                centerCell = false;
+                goto CenterCellDoubleCheck;
             }
         }
     }
@@ -197,6 +209,84 @@ void ALBot::findEmptyCells()
             }
         }
     }
+}
+
+bool ALBot::centerCellCheck()
+{
+    if (_gameField[1][1] == '.')
+    {
+        _row = 1;
+        _column = 1;
+        return true;
+    }
+
+    return false;
+}
+
+bool ALBot::mirrorMove()
+{
+    if (*_prevMove == 0 || *_prevMove == 22)
+    {
+        if (_gameField[0][2] == '.')
+        {
+            _row = 0;
+            _column = 2;
+            return true;
+        }
+        if (_gameField[2][0] == '.')
+        {
+            _row = 2;
+            _column = 0;
+            return true;
+        }
+    }
+
+    if (*_prevMove == 2 || *_prevMove == 20)
+    {
+        if (_gameField[0][0] == '.')
+        {
+            _row = 0;
+            _column = 0;
+            return true;
+        }
+        if (_gameField[2][2] == '.')
+        {
+            _row = 2;
+            _column = 2;
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool ALBot::cornerCellCheck()
+{
+    if (_gameField[0][0] == '.')
+    {
+        _row = 0;
+        _column = 0;
+        return true;
+    }
+    else if (_gameField[0][2] == '.')
+    {
+        _row = 0;
+        _column = 2;
+        return true;
+    }
+    else if (_gameField[2][0] == '.')
+    {
+        _row = 2;
+        _column = 0;
+        return true;
+    }
+    else if (_gameField[2][2] == '.')
+    {
+        _row = 2;
+        _column = 2;
+        return true;
+    }
+    return false;
 }
 
 void ALBot::showBotInfo()
