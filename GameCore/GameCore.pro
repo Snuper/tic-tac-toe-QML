@@ -17,7 +17,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     albot.cpp \
 #    logger.cpp \
-    logger.cpp \
         main.cpp \
     gamecore.cpp
 
@@ -28,6 +27,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     albot.h \
-    gamecore.h \
- \#    logger.h
-    logger.h
+    gamecore.h
+ #    logger.h
