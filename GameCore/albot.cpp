@@ -199,14 +199,39 @@ void ALBot::findEmptyCells()
 {
     _emptyCels.clear();
 
-    for (short row = 0; row < 3; row++)
+    if (_gameField[0][0] == '.')
     {
-        for (short column = 0; column < 3; column++)
+        _emptyCels.push_back(0);
+    }
+
+    if (_gameField[0][2] == '.')
+    {
+        _emptyCels.push_back(2);
+    }
+
+    if (_gameField[2][0] == '.')
+    {
+        _emptyCels.push_back(20);
+    }
+
+    if (_gameField[2][2] == '.')
+    {
+        _emptyCels.push_back(22);
+    }
+
+    for (short row = 0, column = 1; row < 3; row++)
+    {
+        if (_gameField[row][column] == '.')
         {
-            if (_gameField[row][column] == '.')
-            {
-                _emptyCels.push_back(row * 10 + column);
-            }
+            _emptyCels.push_back(row * 10 + column);
+        }
+    }
+
+    for (short row = 1, column = 0; column < 3; column++)
+    {
+        if (_gameField[row][column] == '.')
+        {
+            _emptyCels.push_back(row * 10 + column);
         }
     }
 }

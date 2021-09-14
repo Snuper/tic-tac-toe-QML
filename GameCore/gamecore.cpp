@@ -13,12 +13,12 @@ GameCore::GameCore()
     _game = true;
     _counter = 8;
 
-//    _log = new Logger;
+    _log = new Logger;
 }
 
 void GameCore::startGame()
 {
-//    _log->writeLog("----------NewGame----------");
+    _log->writeLog("----------NewGame----------");
 
     randFirstRightMove();
 
@@ -42,7 +42,7 @@ void GameCore::randFirstRightMove()
     whoRightMove = (_xORo) ? "Starts - X" : "Starts - O";
     whoRightMove += (_humanStep) ? " | Human" : " | Bot";
 
-//    _log->writeLog(whoRightMove);
+    _log->writeLog(whoRightMove);
 }
 
 void GameCore::choiceModeGame()
@@ -54,12 +54,12 @@ void GameCore::choiceModeGame()
     switch (choice)
     {
         case '1':
-//            _log->writeLog("Mode game - PvP");
+            _log->writeLog("Mode game - PvP");
             game('1');
             break;
         case '2':
             _bot = new ALBot(&_xORo, &_prevMove, _gameField);
-//            _log->writeLog("Mode game - PvE");
+            _log->writeLog("Mode game - PvE");
             game('2');
             break;
         case '3':
@@ -68,12 +68,12 @@ void GameCore::choiceModeGame()
             {
                 _bot[i] = ALBot(&_xORo, &_prevMove, _gameField);
             }
-//            _log->writeLog("Mode game - EvE");
+            _log->writeLog("Mode game - EvE");
             game('3');
             break;
         default:
             std::cout << "\nInvalid input, try again: ";
-//            _log->writeLog("<|>Invalid input<|>");
+            _log->writeLog("<|>Invalid input<|>");
             goto TRY_AGAIN;
             break;
     }
@@ -85,7 +85,7 @@ void GameCore::playerInput()
     short   row = -1,
             column = -1;
 
-//    _log->writeLog("Player try input...");
+    _log->writeLog("Player try input...");
 
     while (step == false)
     {
@@ -95,7 +95,7 @@ void GameCore::playerInput()
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout << "\nInvalid input, try again: ";
-//            _log->writeLog("<|>Invalid input<|>");
+            _log->writeLog("<|>Invalid input<|>");
         }
 
         short arg = toShort(&row, &column);
@@ -106,10 +106,10 @@ void GameCore::playerInput()
 void GameCore::game(const char modeGame)
 {
     system("clear");
-//    _log->writeLog("----------StartGame----------");
+    _log->writeLog("----------StartGame----------");
     while (true)
     {
-//        _log->writeLog("---------- | Step - " + std::to_string(9 - _counter));
+        _log->writeLog("---------- | Step - " + std::to_string(9 - _counter));
         showWhoseStep();
         showField();
         if (modeGame == '1')
@@ -178,7 +178,7 @@ bool GameCore::setXO(short argSet)
                 if (_xORo == true) _gameField[row][column] = 'X';
                 else _gameField[row][column] = 'O';
 
-//                _log->writeLog("Input row - " + std::to_string(row) + " column - " + std::to_string(column));
+                _log->writeLog("Input row - " + std::to_string(row) + " column - " + std::to_string(column));
             }
             else
             {
@@ -197,7 +197,7 @@ bool GameCore::setXO(short argSet)
     catch (const char *e)
     {
         std::cout << "\nInvalid input, try again (" << e << ")";
-//        _log->writeLog("<|>Invalid input, try again (" + (std::string)e + ")<|>");
+        _log->writeLog("<|>Invalid input, try again (" + (std::string)e + ")<|>");
         return false;
     }
 }
@@ -213,21 +213,21 @@ void GameCore::checkWinner()
     {//првоеряем строки
         if (_gameField[row][0] == 'X' && _gameField[row][1] == 'X' && _gameField[row][2] == 'X')
         {
-//            _log->writeLog( "Win - " +
-//                            std::to_string(row) + " 0" + " | " +
-//                            std::to_string(row) + " 1" + " | " +
-//                            std::to_string(row) + " 2"
-//                            );
+            _log->writeLog( "Win - " +
+                            std::to_string(row) + " 0" + " | " +
+                            std::to_string(row) + " 1" + " | " +
+                            std::to_string(row) + " 2"
+                            );
             endGame('X');
             return;
         }
         else if (_gameField[row][0] == 'O' && _gameField[row][1] == 'O' && _gameField[row][2] == 'O')
         {
-//            _log->writeLog( "Win - " +
-//                            std::to_string(row) + " 0" + " | " +
-//                            std::to_string(row) + " 1" + " | " +
-//                            std::to_string(row) + " 2"
-//                            );
+            _log->writeLog( "Win - " +
+                            std::to_string(row) + " 0" + " | " +
+                            std::to_string(row) + " 1" + " | " +
+                            std::to_string(row) + " 2"
+                            );
             endGame('O');
         }
     }
@@ -236,21 +236,21 @@ void GameCore::checkWinner()
     {//проверяем столбцы
         if (_gameField[0][column] == 'X' && _gameField[1][column] == 'X' && _gameField[2][column] == 'X')
         {
-//            _log->writeLog( "Win - "
-//                            "0 "  + std::to_string(column) + " | " +
-//                            "1 " + std::to_string(column) + " | " +
-//                            "2 " + std::to_string(column)
-//                            );
+            _log->writeLog( "Win - "
+                            "0 "  + std::to_string(column) + " | " +
+                            "1 " + std::to_string(column) + " | " +
+                            "2 " + std::to_string(column)
+                            );
             endGame('X');
             return;
         }
         else if (_gameField[0][column] == 'O' && _gameField[1][column] == 'O' && _gameField[2][column] == 'O')
         {
-//            _log->writeLog( "Win - "
-//                            "0 "  + std::to_string(column) + " | " +
-//                            "1 " + std::to_string(column) + " | " +
-//                            "2 " + std::to_string(column)
-//                            );
+            _log->writeLog( "Win - "
+                            "0 "  + std::to_string(column) + " | " +
+                            "1 " + std::to_string(column) + " | " +
+                            "2 " + std::to_string(column)
+                            );
             endGame('O');
             return;
         }
@@ -259,25 +259,25 @@ void GameCore::checkWinner()
     //Проверяем диоганали
     if (_gameField[0][0] == 'X' && _gameField[1][1] == 'X' && _gameField[2][2] == 'X')
     {
-//        _log->writeLog( "Win - 0 0 | 1 1 | 2 2");
+        _log->writeLog( "Win - 0 0 | 1 1 | 2 2");
         endGame('X');
         return;
     }
     else if (_gameField[0][0] == 'O' && _gameField[1][1] == 'O' && _gameField[2][2] == 'O')
     {
-//        _log->writeLog( "Win - 0 0 | 1 1 | 2 2");
+        _log->writeLog( "Win - 0 0 | 1 1 | 2 2");
         endGame('O');
         return;
     }
     else if (_gameField[0][2] == 'X' && _gameField[1][1] == 'X' && _gameField[2][0] == 'X')
     {
-//        _log->writeLog( "Win - 0 2 | 1 1 | 2 0");
+        _log->writeLog( "Win - 0 2 | 1 1 | 2 0");
         endGame('X');
         return;
     }
     else if (_gameField[0][2] == 'O' && _gameField[1][1] == 'O' && _gameField[2][0] == 'O')
     {
-//        _log->writeLog( "Win - 0 2 | 1 1 | 2 0");
+        _log->writeLog( "Win - 0 2 | 1 1 | 2 0");
         endGame('O');
         return;
     }
@@ -294,7 +294,7 @@ void GameCore::showField()
 {//Выводим игровое поле
 
     std::cout << std::endl;
-//    _log->writeLog("---------Field---------");
+    _log->writeLog("---------Field---------");
 
     for (short row = 0; row < 3; row++)
     {
@@ -305,11 +305,11 @@ void GameCore::showField()
             std::cout << _gameField[row][column] << "   ";
             saveLine += std::string(1, _gameField[row][column]) + "   ";
         }
-//        _log->writeLog(saveLine);
+        _log->writeLog(saveLine);
         std::cout << std::endl;
     }
 
-//    _log->writeLog("---------Field---------");
+    _log->writeLog("---------Field---------");
 }
 
 void GameCore::showWhoseStep()
@@ -318,7 +318,7 @@ void GameCore::showWhoseStep()
 
     whoseStep += (_xORo) ? "X" : "O";
 
-//    _log->writeLog(whoseStep);
+    _log->writeLog(whoseStep);
     std::cout << whoseStep;
 }
 
@@ -351,6 +351,6 @@ void GameCore::endGame(const char whoWin)
     showField();
 
     _game = false;
-//    _log->writeLog("---------EndGame - Win - " + std::string(1, whoWin) + "------------");
-//    _log->closeLogFile();
+    _log->writeLog("---------EndGame - Win - " + std::string(1, whoWin) + "------------");
+    _log->closeLogFile();
 }
